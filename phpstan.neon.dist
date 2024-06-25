@@ -5,5 +5,5 @@ parameters:
     level: max
     paths:
         - src
-        - configure.php
+        - install.php
     tmpDir: build/phpstan

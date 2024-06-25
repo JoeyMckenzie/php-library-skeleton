@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 arch('It will not use debugging functions')
     ->expect(['dd', 'dump', 'ray'])
     ->each->not->toBeUsed();

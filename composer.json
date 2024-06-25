@@ -42,7 +42,7 @@
         }
     },
     "scripts": {
-        "prepare": "php install.php",
+        "prepare": "php bin/install.php",
         "prepare:hooks": "git config core.hookspath .githooks",
         "test:integration": "./vendor/bin/pest --parallel --colors=always",
         "test:watch": "./vendor/bin/pest --watch --parallel",

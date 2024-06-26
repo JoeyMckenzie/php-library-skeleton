@@ -43,7 +43,14 @@ $description = text('Package description', 'All your base are belong to us!', re
 
 $options = multiselect(
     'Any additional options?',
-    ['PHPStan', 'Laravel Pint', 'Dependabot', 'Rector', 'Changelog'],
+    [
+        'PHPStan',
+        'Laravel Pint',
+        'Dependabot',
+        'Rector',
+        'Git hooks',
+        'Changelog',
+    ],
 );
 
 /** @var string[] $optionValues */
@@ -53,6 +60,7 @@ $usePhpStan = in_array('PHPStan', $optionValues, true);
 $useDependabot = in_array('Dependabot', $optionValues, true);
 $useChangelog = in_array('Changelog', $optionValues, true);
 $useRector = in_array('Rector', $optionValues, true);
+$useGitHooks = in_array('Git hooks', $optionValues, true);
 
 info('------');
 info("Author     : {$authorName} ({$authorUsername}, {$authorEmail})");
@@ -147,6 +155,12 @@ if (! $useRector) {
     remove_composer_script_from_array('ci', '@rector:dry');
 }
 
+if (! $useGitHooks) {
+    safeUnlinkDirectory(__DIR__.'/.githooks');
+} else {
+    run('composer run prepare:hooks');
+}
+
 $installAndTest = confirm('Execute `composer install` and run tests?');
 if ($installAndTest) {
     run('composer install && composer test');
@@ -155,4 +169,5 @@ if ($installAndTest) {
 $removeFile = confirm('Let this script delete itself?', true);
 if ($removeFile) {
     unlink(__FILE__);
+    remove_composer_script('prepare');
 }

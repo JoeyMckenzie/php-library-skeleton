@@ -134,6 +134,28 @@ function safeUnlink(string $filename): void
     }
 }
 
+function safeUnlinkDirectory(string $dirPath): void
+{
+    if (! is_dir($dirPath)) {
+        return;
+    }
+
+    /** @var string[] $scannedFiles */
+    $scannedFiles = scandir($dirPath);
+    $files = array_diff($scannedFiles, ['.', '..']);
+
+    foreach ($files as $file) {
+        $filePath = $dirPath.DIRECTORY_SEPARATOR.$file;
+        if (is_dir($filePath)) {
+            safeUnlinkDirectory($filePath);
+        } else {
+            unlink($filePath);
+        }
+    }
+
+    rmdir($dirPath);
+}
+
 function determineSeparator(string $path): string
 {
     return str_replace('/', DIRECTORY_SEPARATOR, $path);

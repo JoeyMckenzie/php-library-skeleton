@@ -91,6 +91,8 @@ if (! confirm('Modify files?', true)) {
     exit(1);
 }
 
+// Update PHP version
+update_composer_dep('php', "^$minimumPhpVersion");
 $files = (str_starts_with(strtoupper(PHP_OS), 'WIN') ? replaceForWindows() : replaceForAllOtherOSes());
 
 foreach ($files as $file) {
@@ -115,9 +117,6 @@ foreach ($files as $file) {
         default => [],
     };
 }
-
-// Update PHP version
-update_composer_dep('php', $minimumPhpVersion);
 
 if (! $useLaravelPint) {
     safeUnlink(__DIR__.'/.github/workflows/fix-php-code-style-issues.yml');
@@ -183,7 +182,7 @@ if ($installAndTest) {
         'ext-curl',
     ]);
 
-    safeUnlinkDirectory(__DIR__.'/vendor');
+    safeUnlinkDirectory(__DIR__.'/../vendor');
     run('composer install && composer test');
 }
 

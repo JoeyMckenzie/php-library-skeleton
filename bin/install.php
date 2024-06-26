@@ -8,6 +8,7 @@ require_once __DIR__.'/helpers.php';
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\multiselect;
+use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 
 $gitName = run('git config user.name');
@@ -62,12 +63,17 @@ $useChangelog = in_array('Changelog', $optionValues, true);
 $useRector = in_array('Rector', $optionValues, true);
 $useGitHooks = in_array('Git hooks', $optionValues, true);
 
+$minimumPhpVersion = select('Minimum PHP version?', [
+    '8.0', '8.1', '8.2', '8.3',
+]);
+
 info('------');
-info("Author     : {$authorName} ({$authorUsername}, {$authorEmail})");
-info("Vendor     : {$vendorName} ({$vendorSlug})");
-info("Package    : {$packageSlug} <{$description}>");
-info("Namespace  : {$vendorNamespace}\\{$className}");
-info("Class name : {$className}");
+info("Author      : $authorName ($authorUsername, $authorEmail)");
+info("Vendor      : $vendorName ($vendorSlug)");
+info("Package     : $packageSlug <$description>");
+info("Namespace   : $vendorNamespace\\$className");
+info("Class name  : $className");
+info("PHP version : $minimumPhpVersion");
 info('---');
 info('Packages & Utilities');
 info('Use Laravel/Pint     : '.($useLaravelPint ? 'yes' : 'no'));
@@ -99,6 +105,7 @@ foreach ($files as $file) {
         'skeleton' => $packageSlug,
         'variable' => $variableName,
         ':package_description' => $description,
+        ':php_version' => $minimumPhpVersion,
     ]);
 
     match (true) {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use function Laravel\Prompts\info;
 
+const COMPOSER_PATH = __DIR__.'/../composer.json';
+
 function run(string $command): string
 {
     return trim((string) shell_exec($command));
@@ -60,7 +62,7 @@ function remove_prefix(string $prefix, string $content): string
 function remove_composer_deps(array $names): void
 {
     /** @var string $contents */
-    $contents = file_get_contents(__DIR__.'/composer.json');
+    $contents = file_get_contents(COMPOSER_PATH);
 
     /** @var array{require: array<string, string>, 'require-dev': array<string, string>} $data */
     $data = json_decode($contents, true);
@@ -77,13 +79,13 @@ function remove_composer_deps(array $names): void
         }
     }
 
-    file_put_contents(__DIR__.'/composer.json', json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+    file_put_contents(COMPOSER_PATH, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 }
 
 function remove_composer_script(string $scriptName): void
 {
     /** @var string $contents */
-    $contents = file_get_contents(__DIR__.'/composer.json');
+    $contents = file_get_contents(COMPOSER_PATH);
 
     /** @var array{scripts: array<string, string>} $data */
     $data = json_decode($contents, true);
@@ -95,13 +97,13 @@ function remove_composer_script(string $scriptName): void
         }
     }
 
-    file_put_contents(__DIR__.'/composer.json', json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+    file_put_contents(COMPOSER_PATH, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 }
 
 function remove_composer_script_from_array(string $scriptKey, string $scriptValue): void
 {
     /** @var string $contents */
-    $contents = file_get_contents(__DIR__.'/composer.json');
+    $contents = file_get_contents(COMPOSER_PATH);
 
     /** @var array{scripts: array<string, string>} $data */
     $data = json_decode($contents, true);
@@ -119,7 +121,7 @@ function remove_composer_script_from_array(string $scriptKey, string $scriptValu
         }
     }
 
-    file_put_contents(__DIR__.'/composer.json', json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+    file_put_contents(COMPOSER_PATH, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 }
 
 function remove_readme_paragraphs(string $file): void
@@ -183,7 +185,7 @@ function replaceForWindows(): array
  */
 function replaceForAllOtherOSes(): array
 {
-    return explode(PHP_EOL, run('grep -E -r -l -i ":author|:vendor|:package|VendorName|skeleton|migration_table_name|vendor_name|vendor_slug|author@domain.com" --exclude-dir=vendor ./* ./.github/* | grep -v '.basename(__FILE__)));
+    return explode(PHP_EOL, run('grep -E -r -l -i ":author|:vendor|:package|VendorName|skeleton|vendor_name|vendor_slug|author@domain.com" --exclude-dir=vendor ./* ./.github/* | grep -v '.basename(__FILE__)));
 }
 
 /**

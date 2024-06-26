@@ -100,6 +100,22 @@ function remove_composer_script(string $scriptName): void
     file_put_contents(COMPOSER_PATH, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 }
 
+function update_composer_key(string $key, string $updatedValue): void
+{
+    /** @var string $contents */
+    $contents = file_get_contents(COMPOSER_PATH);
+
+    $data = json_decode($contents, true);
+
+    // @phpstan-ignore-next-line
+    if (array_key_exists($key, $data)) {
+        // @phpstan-ignore-next-line
+        $data[$key] = $updatedValue;
+    }
+
+    file_put_contents(COMPOSER_PATH, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+}
+
 function remove_composer_script_from_array(string $scriptKey, string $scriptValue): void
 {
     /** @var string $contents */
@@ -258,7 +274,7 @@ function searchCommitsForGitHubUsername(): string
     /** @var string $email */
     $email = $firstCommitter['email'];
 
-    return explode('@', $firstCommitter['email'])[0] ?? '';
+    return explode('@', $email)[0] ?? '';
 }
 
 function guessGitHubUsernameUsingCli(): string

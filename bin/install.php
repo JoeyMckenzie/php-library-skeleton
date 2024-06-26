@@ -11,6 +11,8 @@ use function Laravel\Prompts\multiselect;
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 
+update_composer_key('name', ':vendor_slug/:package_slug');
+
 $gitName = run('git config user.name');
 $authorName = text('Author name?', $gitName, $gitName, true);
 
@@ -179,6 +181,7 @@ if ($installAndTest) {
         'ext-curl',
     ]);
 
+    safeUnlinkDirectory(__DIR__.'/vendor');
     run('composer install && composer test');
 }
 

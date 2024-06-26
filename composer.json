@@ -24,6 +24,7 @@
         "laravel/pint": "^1.16",
         "pestphp/pest": "^2.34",
         "pestphp/pest-plugin-arch": "^2.7",
+        "pestphp/pest-plugin-type-coverage": "^v2.8.3",
         "phpstan/phpstan": "^1.10",
         "phpstan/extension-installer": "^1.3",
         "phpstan/phpstan-deprecation-rules": "^1.1",

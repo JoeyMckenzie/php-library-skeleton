@@ -177,5 +177,5 @@ if ($installAndTest) {
 
 $removeFile = confirm('Let this script delete itself?', true);
 if ($removeFile) {
-    safeUnlinkDirectory(__DIR__.'/bin');
+    safeUnlinkDirectory(__DIR__);
 }

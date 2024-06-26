@@ -14,7 +14,7 @@ $gitName = run('git config user.name');
 $authorName = text('Author name?', $gitName, $gitName, true);
 
 $gitEmail = run('git config user.email');
-$authorEmail = text('Author email?', $gitEmail, $gitName, true);
+$authorEmail = text('Author email?', $gitEmail, $gitEmail, true);
 
 $guessedUsername = guessGitHubUsername();
 $authorUsername = text('Author username?', $guessedUsername, $guessedUsername, true);

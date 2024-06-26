@@ -1,5 +1,5 @@
 {
-    "name": "test/test",
+    "name": "vendor_slug/package_slug",
     "description": ":package_description",
     "keywords": [
         ":vendor_name",
@@ -42,8 +42,7 @@
         }
     },
     "scripts": {
-        "prepare": "php bin/install.php",
-        "prepare:hooks": "git config core.hookspath .githooks",
+        "prepare": "git config core.hookspath .githooks",
         "test:integration": "./vendor/bin/pest --parallel --colors=always",
         "test:watch": "./vendor/bin/pest --watch --parallel",
         "test:types": "./vendor/bin/pest --type-coverage --min=100",

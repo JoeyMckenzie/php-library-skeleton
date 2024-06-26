@@ -158,7 +158,7 @@ if (! $useRector) {
 if (! $useGitHooks) {
     safeUnlinkDirectory(__DIR__.'/.githooks');
 } else {
-    run('composer run prepare:hooks');
+    run('composer run prepare');
 }
 
 $installAndTest = confirm('Execute `composer install` and run tests?');
@@ -168,6 +168,5 @@ if ($installAndTest) {
 
 $removeFile = confirm('Let this script delete itself?', true);
 if ($removeFile) {
-    unlink(__FILE__);
-    remove_composer_script('prepare');
+    safeUnlinkDirectory(__DIR__.'/bin');
 }

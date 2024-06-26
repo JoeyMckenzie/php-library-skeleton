@@ -116,6 +116,24 @@ function update_composer_key(string $key, string $updatedValue): void
     file_put_contents(COMPOSER_PATH, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 }
 
+function update_composer_dep(string $key, string $updatedValue): void
+{
+    /** @var string $contents */
+    $contents = file_get_contents(COMPOSER_PATH);
+
+    /** @var array{require: array<string, string>} $data */
+    $data = json_decode($contents, true);
+
+    foreach ($data['require'] as $name => $script) {
+        if ($key === $name) {
+            $data['require'][$name] = $updatedValue;
+            break;
+        }
+    }
+
+    file_put_contents(COMPOSER_PATH, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+}
+
 function remove_composer_script_from_array(string $scriptKey, string $scriptValue): void
 {
     /** @var string $contents */

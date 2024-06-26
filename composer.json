@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^:php_version",
+        "php": "^8.3",
         "laravel/prompts": "^0.1.24",
         "ext-curl": "*"
     },

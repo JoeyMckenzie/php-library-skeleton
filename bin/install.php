@@ -67,7 +67,7 @@ $useGitHooks = in_array('Git hooks', $optionValues, true);
 
 $minimumPhpVersion = select('Minimum PHP version?', [
     '8.0', '8.1', '8.2', '8.3',
-]);
+], default: '8.3');
 
 info('------');
 info("Author      : $authorName ($authorUsername, $authorEmail)");
@@ -107,7 +107,6 @@ foreach ($files as $file) {
         'skeleton' => $packageSlug,
         'variable' => $variableName,
         ':package_description' => $description,
-        ':php_version' => $minimumPhpVersion,
     ]);
 
     match (true) {
@@ -116,6 +115,9 @@ foreach ($files as $file) {
         default => [],
     };
 }
+
+// Update PHP version
+update_composer_dep('php', $minimumPhpVersion);
 
 if (! $useLaravelPint) {
     safeUnlink(__DIR__.'/.github/workflows/fix-php-code-style-issues.yml');

@@ -167,6 +167,11 @@ if (! $useGitHooks) {
 
 $installAndTest = confirm('Execute `composer install` and run tests?');
 if ($installAndTest) {
+    remove_composer_deps([
+        'laravel/prompts',
+        'ext-curl',
+    ]);
+
     run('composer install && composer test');
 }
 

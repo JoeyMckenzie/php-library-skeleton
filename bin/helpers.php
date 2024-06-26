@@ -62,8 +62,14 @@ function remove_composer_deps(array $names): void
     /** @var string $contents */
     $contents = file_get_contents(__DIR__.'/composer.json');
 
-    /** @var array{'require-dev': array<string, string>} $data */
+    /** @var array{require: array<string, string>, 'require-dev': array<string, string>} $data */
     $data = json_decode($contents, true);
+
+    foreach ($data['require'] as $name => $version) {
+        if (in_array($name, $names, true)) {
+            unset($data['require'][$name]);
+        }
+    }
 
     foreach ($data['require-dev'] as $name => $version) {
         if (in_array($name, $names, true)) {

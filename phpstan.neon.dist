@@ -5,8 +5,6 @@ parameters:
     level: max
     paths:
         - src
-        - bin
-    tmpDir: build/phpstan
 
     # Optionally include the baseline file
     # baseline: phpstan-baseline.neon
